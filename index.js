@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const { userRouter } = require('./routes/user')
 const { courseRouter } = require('./routes/course')
 const { adminRouter } = require('./routes/admin')
-const mongoose = require('mongoose');
+
 
 const app = express();
 
