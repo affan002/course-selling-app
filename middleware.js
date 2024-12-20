@@ -1,0 +1,23 @@
+const jwt = require('jsonwebtoken')
+const JWT_SECRET = "absdgalh820485"
+
+function authenticate(req, res, next) {
+    const token = req.headers.token;
+
+    const decodedData = jwt.verify(token, JWT_SECRET);
+
+    if (decodedData) {
+        req.userId = decodedData.id;
+        next()
+    } else {
+        res.status(403).json({
+            message: 'not found'
+        })
+    }
+}
+
+
+module.exports = {
+    authenticate, 
+    JWT_SECRET
+}

@@ -1,39 +1,43 @@
-const { Router }= require('express')
-const { AdminModel } = require("../db")
+const express = require('express');
+const AdminRouter = express.Router()
 
-const adminRouter = Router();
+const { AdminModel } = require('../db')
 
-adminRouter.post('/signup', function(req, res) {
+// AdminRouter.use(adminMiddleware)
+
+
+AdminRouter.post('/signup', function(req,res) {
     res.json({
-        message: "signup endpoint"
+        message: "this 1 the signup endpoint"
     })
 })
 
-adminRouter.post('/signin', function(req, res) {
+AdminRouter.post('/signin', function(req,res) {
     res.json({
-        message: "signup endpoint"
+        message: "this is the signup endpoint"
     })
 })
 
-adminRouter.post('/course', function(req, res) {
+
+AdminRouter.post('/course', function(req,res) {
     res.json({
-        message: "signup endpoint"
+        message: "this is the signup endpoint"
     })
 })
 
-adminRouter.put('/course', function(req, res) {
+AdminRouter.put('/course', function(req,res) {
     res.json({
-        message: "signup endpoint"
+        message: "this is the signup endpoint"
     })
 })
 
-adminRouter.post('/course/bulk', function(req, res) {
+AdminRouter.post('/course/bulk', function(req,res) {
     res.json({
-        message: "signup endpoint"
+        message: "this is the signup endpoint"
     })
 })
 
 
 module.exports = {
-    adminRouter: adminRouter
+    AdminRouter: AdminRouter
 }
