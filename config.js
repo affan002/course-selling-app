@@ -1,2 +1,2 @@
-const JWT_adminpassword = "qoanfkalf850157oah"
-const JWT_userpassword = "ahglhanv85017508"
+const JWT_userpassword = process.env.JWT_userpassword
+const JWT_adminpassword = process.env.JWT_adminpassword

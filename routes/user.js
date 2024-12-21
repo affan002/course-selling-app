@@ -6,7 +6,7 @@ const express = require("express");
 const UserRouter = express.Router();//creating a router 
 
 const {UserModel} = require("../db");
-const {authenticate} = require("../middleware");
+const {userMiddleware} = require('../middlewares/user')
 const {JWT_userpassword} = require("../config")
 
 
@@ -51,7 +51,7 @@ UserRouter.post('/signup', async function(req,res) {
 
     if (!errorThrown) {
         res.json({
-            message: "you have signed in"
+            message: "you have signed up"
         })
     }
 })
