@@ -5,7 +5,7 @@ const { z } = require('zod');
 const express = require('express');
 const AdminRouter = express.Router()
 
-const { AdminModel, UserModel } = require('../db')
+const { AdminModel, CourseModel } = require('../db')
 const {adminMiddleware} = require('../middlewares/admin')
 const {JWT_adminpassword} = require('../config')
 
@@ -90,16 +90,15 @@ AdminRouter.post('/signin', async function(req,res) {
 
 
 AdminRouter.post('/course', adminMiddleware, async function(req,res) {
-    const adminId = req.userId
+    const adminId = req.userID
+    const {title, description, price, imageURL} = req.body
 
-    const {title, description, price, imageURL, creatorId } = req.body
-
-    course = await courseModel.create({
+    course = await CourseModel.create({
         title: title,
         description: description,
         price: price,
         imageURL: imageURL,
-        creatorId: creatorId
+        creatorId: adminId
     })
 
     res.json({
@@ -108,16 +107,40 @@ AdminRouter.post('/course', adminMiddleware, async function(req,res) {
     })
 })
 
-AdminRouter.put('/course', function(req,res) {
+AdminRouter.put('/course', adminMiddleware, async function(req,res) {
+    const adminId = req.userID;
+
+    const {title, description, price, imageURL, courseId} = req.body;
+
+    const course = await CourseModel.updateOne({
+        _id: courseId,
+        creatorId: adminId
+    }, {
+        title: title,
+        description: description,
+        imageURL: imageURL,
+        price: price
+    })
+
     res.json({
-        message: "this is the signup endpoint"
+        message: 'course updated',
+        courseId: course._id
     })
 })
 
-AdminRouter.post('/course/bulk', function(req,res) {
-    res.json({
-        message: "this is the signup endpoint"
+
+AdminRouter.get('/course/bulk', adminMiddleware, async function(req,res) {
+    adminId = req.userId;
+
+    const courses = await CourseModel.find({
+        creatorId: adminId
     })
+
+    res.json({
+        message: 'courses retrieved',
+        courses: courses
+    })
+
 })
 
 
