@@ -17,7 +17,7 @@ app.use('/api/v1/course', CourseRouter)
 
 async function main() {
     mongoose.connect(process.env.MONGO_URL)
-    app.listen(3001);
+    app.listen(3002);
     console.log("app listening on port 3000")
 }
 

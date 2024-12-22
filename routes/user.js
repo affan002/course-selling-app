@@ -5,7 +5,7 @@ const {z} = require("zod");
 const express = require("express");
 const UserRouter = express.Router();//creating a router 
 
-const {UserModel} = require("../db");
+const {UserModel, PurchaseModel, CourseModel} = require("../db");
 const {userMiddleware} = require('../middlewares/user')
 const {JWT_userpassword} = require("../config")
 
@@ -74,7 +74,7 @@ UserRouter.post('/signin', async function(req,res) {
 
     if (passwordMatch){
         token = jwt.sign({
-            id: user._id.toString()
+            id: user._id
         }, JWT_userpassword);
 
         //do cookie logic here 
@@ -91,12 +91,30 @@ UserRouter.post('/signin', async function(req,res) {
     
 })
 
-UserRouter.post('/purchases', function(req,res) {
+
+
+UserRouter.get('/purchases', userMiddleware, async function(req,res) {
+    const userId = req.userId;
+
+    const purchases = await PurchaseModel.find({
+        userId
+    })
+
+    let purchasedIds = [];
+
+    for (let i=0; i<purchases.length; i++) {
+        purchasedIds.push(purchases[i].courseId);
+    }
+
+    const courseData = await CourseModel.find({
+        _id : {$in: purchasedIds}
+    })
+
     res.json({
-        message: "this is the signup endpoint"
+        purchases,
+        courseData
     })
 })
-
 
 module.exports = {
     UserRouter: UserRouter
